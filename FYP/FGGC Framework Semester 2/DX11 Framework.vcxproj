@@ -371,22 +371,22 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Appearance.cpp" />
+    <ClCompile Include="GameObject\Appearance.cpp" />
     <ClCompile Include="Application.cpp" />
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="CollisionsManager.cpp" />
-    <ClCompile Include="ControllerManager.cpp" />
+    <ClCompile Include="Camera\Camera.cpp" />
+    <ClCompile Include="Physics\Collisions\CollisionsManager.cpp" />
+    <ClCompile Include="Controls\ControllerManager.cpp" />
     <ClCompile Include="DDSTextureLoader.cpp" />
-    <ClCompile Include="LaminarDragGenerator.cpp" />
+    <ClCompile Include="Physics\Forces\LaminarDragGenerator.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="Particle.cpp" />
-    <ClCompile Include="GravityGenerator.cpp" />
-    <ClCompile Include="GameObjectManager.cpp" />
-    <ClCompile Include="QuadTree.cpp" />
-    <ClCompile Include="RigidBody.cpp" />
-    <ClCompile Include="Transformation.cpp" />
-    <ClCompile Include="TurbulentDragGenerator.cpp" />
+    <ClCompile Include="GameObject\GameObject.cpp" />
+    <ClCompile Include="Physics\Particle.cpp" />
+    <ClCompile Include="Physics\Forces\GravityGenerator.cpp" />
+    <ClCompile Include="GameObject\GameObjectManager.cpp" />
+    <ClCompile Include="World\QuadTree.cpp" />
+    <ClCompile Include="Physics\RigidBody.cpp" />
+    <ClCompile Include="GameObject\Transformation.cpp" />
+    <ClCompile Include="Physics\Forces\TurbulentDragGenerator.cpp" />
     <ClCompile Include="Maths\Vector3.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -396,27 +396,27 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Appearance.h" />
+    <ClInclude Include="GameObject\Appearance.h" />
     <ClInclude Include="Application.h" />
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="Clock.h" />
-    <ClInclude Include="CollisionsManager.h" />
+    <ClInclude Include="Camera\Camera.h" />
+    <ClInclude Include="World\Clock.h" />
+    <ClInclude Include="Physics\Collisions\CollisionsManager.h" />
     <ClInclude Include="Patterns\Command.h" />
-    <ClInclude Include="ControllerManager.h" />
+    <ClInclude Include="Controls\ControllerManager.h" />
     <ClInclude Include="DDSTextureLoader.h" />
-    <ClInclude Include="LaminarDragGenerator.h" />
-    <ClInclude Include="ForceGenerator.h" />
-    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Physics\Forces\LaminarDragGenerator.h" />
+    <ClInclude Include="Physics\Forces\ForceGenerator.h" />
+    <ClInclude Include="GameObject\GameObject.h" />
     <ClInclude Include="Maths\kMaths.h" />
-    <ClInclude Include="Particle.h" />
-    <ClInclude Include="GravityGenerator.h" />
-    <ClInclude Include="GameObjectManager.h" />
-    <ClInclude Include="QuadTree.h" />
-    <ClInclude Include="Quarternion.h" />
+    <ClInclude Include="Physics\Particle.h" />
+    <ClInclude Include="Physics\Forces\GravityGenerator.h" />
+    <ClInclude Include="GameObject\GameObjectManager.h" />
+    <ClInclude Include="World\QuadTree.h" />
+    <ClInclude Include="Physics\Quarternion.h" />
     <CLInclude Include="resource.h" />
-    <ClInclude Include="RigidBody.h" />
-    <ClInclude Include="Transformation.h" />
-    <ClInclude Include="TurbulentDragGenerator.h" />
+    <ClInclude Include="Physics\RigidBody.h" />
+    <ClInclude Include="GameObject\Transformation.h" />
+    <ClInclude Include="Physics\Forces\TurbulentDragGenerator.h" />
     <ClInclude Include="Maths\Vector3.h" />
     <ResourceCompile Include="DX11 Framework.rc" />
   </ItemGroup>
