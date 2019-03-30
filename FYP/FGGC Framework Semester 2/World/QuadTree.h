@@ -1,7 +1,8 @@
 #pragma once
 #include <vector>
 #include <array>
-#include "GameObject.h"
+#include "../Maths/kMaths.h"
+#include "../GameObject/GameObject.h"
 
 enum Compass
 {

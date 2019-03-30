@@ -386,7 +386,6 @@
     <ClCompile Include="World\QuadTree.cpp" />
     <ClCompile Include="Physics\RigidBody.cpp" />
     <ClCompile Include="GameObject\Transformation.cpp" />
-    <ClCompile Include="Physics\Forces\TurbulentDragGenerator.cpp" />
     <ClCompile Include="Maths\Vector3.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -416,7 +415,6 @@
     <CLInclude Include="resource.h" />
     <ClInclude Include="Physics\RigidBody.h" />
     <ClInclude Include="GameObject\Transformation.h" />
-    <ClInclude Include="Physics\Forces\TurbulentDragGenerator.h" />
     <ClInclude Include="Maths\Vector3.h" />
     <ResourceCompile Include="DX11 Framework.rc" />
   </ItemGroup>

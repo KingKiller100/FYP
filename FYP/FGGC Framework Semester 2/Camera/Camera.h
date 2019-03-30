@@ -1,8 +1,6 @@
 #pragma once
 
 #include <windows.h>
-#include <d3d11_1.h>
-#include <d3dcompiler.h>
 #include <directxmath.h>
 
 using namespace DirectX;
@@ -10,37 +8,54 @@ using namespace DirectX;
 class Camera
 {
 private:
-	XMFLOAT3 _eye; 
-	XMFLOAT3 _at;
-	XMFLOAT3 _up;
+	XMVECTOR position;
+	XMVECTOR at;
+	XMVECTOR up;
+	XMFLOAT4X4 view;
+	XMFLOAT4X4 projection;
 
-	FLOAT _windowWidth;
-	FLOAT _windowHeight;
-	FLOAT _nearDepth;
-	FLOAT _farDepth;
+	FLOAT windowHeight;
+	FLOAT windowWidth;
 
-	XMFLOAT4X4 _view;
-	XMFLOAT4X4 _projection;
+	FLOAT nearDepth;
+	FLOAT farDepth;
+
+	float forwardMoveSpeed, backwardMoveSpeed;
+	float ascendingSpeed, descendingSpeed;
+	float rotationX, rotationY;
+	float turnSpeed;
+
+private:
+	void ForwardMovement();
+	void BackwardMovement();
+	void Ascension();
+	void Descension();
+	void LeftTurn();
+	void RightTurn();
+	void UpwardTurn();
+	void DownwardTurn();
+
+	// Camera Movement method
+	void Movement();
+	void RecalculateCamera();
 
 public:
+	Camera(const UINT &windowHeight, const UINT &windowWidth);
 	Camera(XMFLOAT3 position, XMFLOAT3 at, XMFLOAT3 up, FLOAT windowWidth, FLOAT windowHeight, FLOAT nearDepth, FLOAT farDepth);
-	~Camera();
 
 	void Update();
+	
+	void SetWorldPosition(const XMFLOAT3& eyePos)							{ position = XMVectorSet(eyePos.x, eyePos.y, eyePos.z, 1); }
+	void SetAt(const XMFLOAT3& atPos)										{ at = XMVectorSet(atPos.x, atPos.y, atPos.z, 1); }
+	void SetViewMatrix(const XMFLOAT4X4& _view)								{ view = _view; }
+	void SetProjectionMatrix(const XMFLOAT4X4& _projection)					{ projection = _projection; }
 
-	XMFLOAT4X4 GetView() const { return _view; }
-	XMFLOAT4X4 GetProjection() const { return _projection; }
-
-	XMFLOAT4X4 GetViewProjection() const;
-
-	XMFLOAT3 GetPosition() const { return _eye; }
-	XMFLOAT3 GetLookAt() const { return _at; }
-	XMFLOAT3 GetUp() const { return _up; }
-
-	void SetPosition(XMFLOAT3 position) { _eye = position; }
-	void SetLookAt(XMFLOAT3 lookAt) { _at = lookAt; }
-	void SetUp(XMFLOAT3 up) { _up = up; }
-
-	void Reshape(FLOAT windowWidth, FLOAT windowHeight, FLOAT nearDepth, FLOAT farDepth);
+	
+	XMFLOAT3 GetPosition() const											{ return XMFLOAT3(position.m128_f32[0], position.m128_f32[1], position.m128_f32[2]); }
+	XMFLOAT3 GetUp() const													{ return XMFLOAT3(up.m128_f32[0], up.m128_f32[1], up.m128_f32[2]); }
+	XMFLOAT3 GetAt() const													{ return XMFLOAT3(at.m128_f32[0], at.m128_f32[1], at.m128_f32[2]); }
+	XMFLOAT3 GetWorldPosition() const										{ return XMFLOAT3(position.m128_f32[0], position.m128_f32[1], position.m128_f32[2]); }
+	XMFLOAT4X4 GetViewMatrix() const										{ return view; }
+	XMFLOAT4X4 GetProjectionMatrix() const									{ return projection; }
 };
 

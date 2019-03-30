@@ -1,8 +1,2 @@
-﻿  Application.cpp
-c:\users\d012120g.student.003\documents\dx11-framework-2\cose50581 tutorial framework semester 2\fggc framework semester 2\application.cpp(220): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
-c:\users\d012120g.student.003\documents\dx11-framework-2\cose50581 tutorial framework semester 2\fggc framework semester 2\application.cpp(718): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\d012120g.student.003\documents\dx11-framework-2\cose50581 tutorial framework semester 2\fggc framework semester 2\application.cpp(752): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-c:\users\d012120g.student.003\documents\dx11-framework-2\cose50581 tutorial framework semester 2\fggc framework semester 2\application.cpp(754): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-c:\users\d012120g.student.003\documents\dx11-framework-2\cose50581 tutorial framework semester 2\fggc framework semester 2\application.cpp(757): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-c:\users\d012120g.student.003\documents\dx11-framework-2\cose50581 tutorial framework semester 2\fggc framework semester 2\application.cpp(759): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-  DX11 Framework.vcxproj -> C:\Users\d012120g.STUDENT.003\Documents\DX11-Framework-2\COSE50581 Tutorial Framework Semester 2\FGGC Framework Semester 2\Debug\DX11 Framework.exe
+﻿  Transformation.cpp
+  DX11 Framework.vcxproj -> C:\Users\d012120g\Documents\FYP\FYP\FGGC Framework Semester 2\Debug\DX11 Framework.exe

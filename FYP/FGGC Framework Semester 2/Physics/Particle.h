@@ -1,11 +1,10 @@
 #pragma once
 #include <map>
-#include "Maths/kMaths.h"
-#include "Transformation.h"
-#include "ForceGenerator.h"
-#include "GravityGenerator.h"
-#include "LaminarDragGenerator.h"
-#include "TurbulentDragGenerator.h"
+#include "../Maths/kMaths.h"
+#include "../GameObject/Transformation.h"
+#include "Forces/ForceGenerator.h"
+#include "Forces/GravityGenerator.h"
+#include "Forces/LaminarDragGenerator.h"
 
 class Particle
 {
@@ -90,7 +89,6 @@ public:
 	std::map<std::string, ForceGenerator*> GetForcesList() const						{ return forcesMap; }
 	GravityGenerator* GetGravityForceGenerator() const									{ return dynamic_cast<GravityGenerator*>(forcesMap.at("gravity")); }
 	LaminarDragGenerator* GetLamDragForceGenerator() const								{ return dynamic_cast<LaminarDragGenerator*>(forcesMap.at("laminar")); }
-	TurbulentDragGenerator* GetTurbulentDragGenerator() const							{ return dynamic_cast<TurbulentDragGenerator*>(forcesMap.at("push")); }
 	
 	// Terminal Velocity
 	float CalculateTerminalVelocity() const;

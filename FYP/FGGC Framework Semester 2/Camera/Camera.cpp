@@ -1,49 +1,128 @@
 #include "Camera.h"
+#define FORWARDMOVEMENT XMVector3TransformCoord(forwardVector, rotationMatrix)
+
+Camera::Camera(const UINT &windowHeight, const UINT &windowWidth) : windowHeight(windowHeight), windowWidth(windowWidth)
+{
+	position = XMVectorSet(0, 5, 0, 1);
+	at = XMVectorSet(0.0f, 0.0f, 1.0f, 1.0f);
+	up = XMVectorSet(0.0f, 1.0f, 0.0f, 1.0f);
+
+	rotationX = 0.05f;
+	rotationY = 0.05f;
+
+	nearDepth = 0.01f;
+	farDepth = 100.f;
+
+	turnSpeed = 10.f;
+}
 
 Camera::Camera(XMFLOAT3 position, XMFLOAT3 at, XMFLOAT3 up, FLOAT windowWidth, FLOAT windowHeight, FLOAT nearDepth, FLOAT farDepth)
-	: _eye(position), _at(at), _up(up), _windowWidth(windowWidth), _windowHeight(windowHeight), _nearDepth(nearDepth), _farDepth(farDepth)
+	: position(XMVectorSet(position.x, position.y, position.z, 1)), at(XMVectorSet(at.x, at.y, at.z, 1)), up(XMVectorSet(up.x, up.y, up.z, 0)), windowHeight(windowHeight), windowWidth(windowWidth), nearDepth(nearDepth), farDepth(farDepth)
 {
 	Update();
 }
 
-Camera::~Camera()
+void Camera::Movement()
 {
+	ForwardMovement();
+	BackwardMovement();
+	LeftTurn();
+	RightTurn();
+	Ascension();
+	Descension();
+	UpwardTurn();
+	DownwardTurn();
+}
+
+void Camera::ForwardMovement()
+{
+	if (!GetAsyncKeyState(VK_SHIFT) && GetAsyncKeyState(VK_UP))
+		forwardMoveSpeed += forwardMoveSpeed < 0.5f ? 0.01f : 0;
+	else
+		forwardMoveSpeed = forwardMoveSpeed > 0.0f ? forwardMoveSpeed - 0.01f : 0.0f;
+}
+
+void Camera::BackwardMovement()
+{
+	if (!GetAsyncKeyState(VK_SHIFT) && GetAsyncKeyState(VK_DOWN))
+		backwardMoveSpeed += backwardMoveSpeed < 0.5f ? 0.01f : 0;
+	else
+		backwardMoveSpeed = backwardMoveSpeed > 0.0f ? backwardMoveSpeed - 0.01f : 0.0f;
+}
+
+void Camera::Ascension()
+{
+	if (GetAsyncKeyState(VK_SHIFT) && GetAsyncKeyState(VK_UP))
+		ascendingSpeed += ascendingSpeed < 0.5f ? 0.01f : 0;
+	else
+		ascendingSpeed = ascendingSpeed > 0.0f ? ascendingSpeed - 0.02f : 0.0f;
+}
+
+void Camera::Descension()
+{
+	if (GetAsyncKeyState(VK_SHIFT) && GetAsyncKeyState(VK_DOWN))
+		descendingSpeed += descendingSpeed < 0.5f ? 0.01f : 0;
+	else
+		descendingSpeed = descendingSpeed > 0.0f ? descendingSpeed - 0.02f : 0.0f;
+}
+
+void Camera::LeftTurn()
+{
+	rotationY -= GetAsyncKeyState('A') & 0x8000 ? 0.05f : .0f;
+}
+
+void Camera::RightTurn()
+{
+	rotationY += GetAsyncKeyState('D') & 0x8000 ? 0.05f : .0f;
+}
+
+void Camera::UpwardTurn()
+{
+	if (GetAsyncKeyState('W') & 0x8000)
+		rotationX -= rotationX > -1.35 ? 0.05f : .0f;
+}
+
+void Camera::DownwardTurn()
+{
+	if (GetAsyncKeyState('S') & 0x8000)
+		rotationX += rotationX < 1.35 ? .05f : 0;
 }
 
 void Camera::Update()
 {
-    // Initialize the view matrix
+	Movement();
 
-	XMFLOAT4 eye = XMFLOAT4(_eye.x, _eye.y, _eye.z, 1.0f);
-	XMFLOAT4 at = XMFLOAT4(_at.x, _at.y, _at.z, 1.0f);
-	XMFLOAT4 up = XMFLOAT4(_up.x, _up.y, _up.z, 0.0f);
+	RecalculateCamera();
 
-	XMVECTOR EyeVector = XMLoadFloat4(&eye);
-	XMVECTOR AtVector = XMLoadFloat4(&at);
-	XMVECTOR UpVector = XMLoadFloat4(&up);
+	// Initialize the view matrix
+	XMStoreFloat4x4(&view, XMMatrixLookAtLH(position, at, up));
 
-	XMStoreFloat4x4(&_view, XMMatrixLookAtLH(EyeVector, AtVector, UpVector));
-
-    // Initialize the projection matrix
-	XMStoreFloat4x4(&_projection, XMMatrixPerspectiveFovLH(0.25f * XM_PI, _windowWidth / _windowHeight, _nearDepth, _farDepth));
+	// Initialize the projection matrix
+	XMStoreFloat4x4(&projection, XMMatrixPerspectiveFovLH(XM_PIDIV2, windowWidth / windowHeight, nearDepth, farDepth));
 }
 
-void Camera::Reshape(FLOAT windowWidth, FLOAT windowHeight, FLOAT nearDepth, FLOAT farDepth)
+void Camera::RecalculateCamera()
 {
-	_windowWidth = windowWidth;
-	_windowHeight = windowHeight;
-	_nearDepth = nearDepth;
-	_farDepth = farDepth;
-}
+	static auto forwardVector = XMVectorSet(0, 0, 1, 0);
+	static auto horizontalVector = XMVectorSet(1, 0, 0, 0);
+	static auto verticalVector = XMVectorSet(0, 1, 0, 0);
 
-XMFLOAT4X4 Camera::GetViewProjection() const 
-{ 
-	XMMATRIX view = XMLoadFloat4x4(&_view);
-	XMMATRIX projection = XMLoadFloat4x4(&_projection);
+	const auto rotationMatrix = XMMatrixRotationRollPitchYaw(rotationX, rotationY, 0);
+	auto target = XMVector3TransformCoord(forwardVector, rotationMatrix);
+	target = XMVector3Normalize(target);
 
-	XMFLOAT4X4 viewProj;
+	const auto camHorizontal = XMVector3TransformCoord(horizontalVector, rotationMatrix);
+	// const auto camForward = ;
 
-	XMStoreFloat4x4(&viewProj, view * projection);
+	position += turnSpeed * camHorizontal;
 
-	return viewProj;
+	position += forwardMoveSpeed * FORWARDMOVEMENT;
+	position -= backwardMoveSpeed * FORWARDMOVEMENT;
+
+	position += ascendingSpeed * verticalVector;
+	position -= descendingSpeed * verticalVector;
+
+	turnSpeed = 0;
+
+	at = position + target;
 }

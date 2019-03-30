@@ -1,6 +1,8 @@
 #include "Application.h"
 #include <ctime>
-#include "Clock.h"
+#include "World/Clock.h"
+#include "Controls/ControllerManager.h"
+#include "Physics/Collisions/CollisionsManager.h"
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -29,55 +31,44 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 bool Application::HandleKeyboard(MSG msg)
 {
-	XMFLOAT3 cameraPosition = _camera->GetPosition();
-
 	switch (msg.wParam)
 	{
 	case VK_UP:
 		_cameraOrbitRadius = max(_cameraOrbitRadiusMin, _cameraOrbitRadius - (_cameraSpeed * 0.2f));
 		return true;
-		break;
 
 	case VK_DOWN:
 		_cameraOrbitRadius = min(_cameraOrbitRadiusMax, _cameraOrbitRadius + (_cameraSpeed * 0.2f));
 		return true;
-		break;
 
 	case VK_RIGHT:
 		_cameraOrbitAngleXZ -= _cameraSpeed;
 		return true;
-		break;
 
 	case VK_LEFT:
 		_cameraOrbitAngleXZ += _cameraSpeed;
 		return true;
-		break;
 
 		// Switches which cube is active
 	case '1':
 		ControllerManager::Instance()->SetCurrentObject(1);
 		return true;
-		break;
 
 	case '2':
 		ControllerManager::Instance()->SetCurrentObject(2);
 		return true;
-		break;
 	
 	case '3':
 		ControllerManager::Instance()->SetCurrentObject(3);
 		return true;
-		break;
 	
 	case '4':
 		ControllerManager::Instance()->SetCurrentObject(4);
 		return true;
-		break;
-	
+
 	case '5':
 		ControllerManager::Instance()->SetCurrentObject(5);
 		return true;
-		break;
 	}
 
 	return false;
@@ -723,16 +714,16 @@ void Application::Update()
 	
 	_goManager->Update(elapsedTime); // Update particle system
 
-	Vector3f floorPos = _goManager->GetGameObjectList()[0]->GetTransformation()->GetPosition();
-	Vector3f adjustedFloorScale = Vector3f(_goManager->GetGameObjectList()[0]->GetTransformation()->GetScale().x, 0.f, _goManager->GetGameObjectList()[0]->GetTransformation()->GetScale().z);
+	// Vector3f floorPos = _goManager->GetGameObjectList()[0]->GetTransformation()->GetPosition();
+	// Vector3f adjustedFloorScale = Vector3f(_goManager->GetGameObjectList()[0]->GetTransformation()->GetScale().x, 0.f, _goManager->GetGameObjectList()[0]->GetTransformation()->GetScale().z);
 		   
-	QuadTree quad = QuadTree(new Quadrant(floorPos - adjustedFloorScale, adjustedFloorScale));
+	// QuadTree quad = QuadTree(new Quadrant(floorPos - adjustedFloorScale, adjustedFloorScale));
 
-	quad.Clear();
-	for (auto gameObject : _goManager->GetGameObjectList())
-	{
-		quad.Insert(gameObject);
-	}
+	// quad.Clear();
+	// for (auto gameObject : _goManager->GetGameObjectList())
+	// {
+		// quad.Insert(gameObject);
+	// }
 
 	vector<GameObject*> returnList;
 
@@ -771,7 +762,7 @@ void Application::UpdateCamera()
 	cameraPos.x = x;
 	cameraPos.z = z;
 
-	_camera->SetPosition(cameraPos);
+	_camera->SetWorldPosition(cameraPos);
 	_camera->Update();
 }
 
@@ -800,8 +791,8 @@ void Application::Draw()
 
     ConstantBuffer cb;
 
-	XMFLOAT4X4 viewAsFloats = _camera->GetView();
-	XMFLOAT4X4 projectionAsFloats = _camera->GetProjection();
+	XMFLOAT4X4 viewAsFloats = _camera->GetViewMatrix();
+	XMFLOAT4X4 projectionAsFloats = _camera->GetProjectionMatrix();
 
 	XMMATRIX view = XMLoadFloat4x4(&viewAsFloats);
 	XMMATRIX projection = XMLoadFloat4x4(&projectionAsFloats);

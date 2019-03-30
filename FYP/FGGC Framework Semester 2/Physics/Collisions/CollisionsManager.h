@@ -1,5 +1,8 @@
 #pragma once
-#include "GameObject.h"
+#include "../../GameObject/GameObject.h"
+
+
+class GameObject;
 
 class CollisionsManager
 {

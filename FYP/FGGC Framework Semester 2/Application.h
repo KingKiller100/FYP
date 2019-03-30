@@ -7,21 +7,12 @@
 #include <directxcolors.h>
 #include "DDSTextureLoader.h"
 #include "resource.h"
-#include "Camera.h"
 
 #include <vector>
 
 #include "Maths/kMaths.h"
-#include "ControllerManager.h"
-#include "CollisionsManager.h"
-#include "GameObjectManager.h"
-#include "Appearance.h"
-#include "Particle.h"
-#include "Transformation.h"
-#include "GameObject.h"
-#include "QuadTree.h"
-#include "LaminarDragGenerator.h"
-#include "TurbulentDragGenerator.h"
+#include "Camera/Camera.h"
+#include "GameObject/GameObjectManager.h"
 
 using namespace DirectX;
 

@@ -3,10 +3,10 @@
 #include <directxmath.h>
 #include <d3d11_1.h>
 #include <string>
-#include "Maths/kMaths.h"
+#include "../Maths/kMaths.h"
 #include "Transformation.h"
 #include "Appearance.h"
-#include "Particle.h"
+#include "../Physics/Particle.h"
 
 using namespace DirectX;
 using namespace std;

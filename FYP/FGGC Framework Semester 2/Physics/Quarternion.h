@@ -19,7 +19,7 @@
 
 #include <cfloat>
 #include <directxmath.h>
-#include "Maths/kMaths.h"
+#include "../Maths/kMaths.h"
 
 using namespace DirectX;
 

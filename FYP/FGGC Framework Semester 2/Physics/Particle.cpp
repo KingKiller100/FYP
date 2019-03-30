@@ -21,6 +21,7 @@ Particle::Particle(Transformation * transform) : _transform(transform)
 	lifeTimer = -1;
 
 	forcesMap.insert(std::pair<std::string, ForceGenerator*>("gravity", new GravityGenerator(-9.81f / 8)));
+	forcesMap.insert(std::pair<std::string, ForceGenerator*>("laminar", new LaminarDragGenerator()));
 }
 
 Particle::~Particle()
@@ -31,7 +32,10 @@ Particle::~Particle()
 	for (auto && force : forcesMap)
 	{
 		delete force.second;
+		force.second = nullptr;
 	}
+
+	forcesMap.clear();
 }
 
 void Particle::Update(const float t)
@@ -89,9 +93,9 @@ float Particle::CalculateTerminalVelocity() const
 {
 	const float airDensity = 1.225f;
 	
-	const float doubleWeight = 2 * _mass * dynamic_cast<GravityGenerator*>(forcesMap.at("gravity"))->GetGravity();
+	const float doubleWeight = 2 * _mass * GetGravityForceGenerator()->GetGravity();
 
-	const float drag = isLaminar ? GetLamDragForceGenerator()->GetDragCoefficient() : GetTurbulentDragGenerator()->GetDragCoefficient();
+	const float drag = GetLamDragForceGenerator()->GetDragCoefficient();
 
 	const float airResistance = airDensity * powf(2 * _radius, 2) * drag;
 	

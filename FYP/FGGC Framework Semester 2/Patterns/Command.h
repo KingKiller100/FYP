@@ -1,5 +1,6 @@
 #pragma once
-#include "../Particle.h"
+#include "../Physics/Particle.h"
+#include "../Maths/kMaths.h"
 
 class Command
 {

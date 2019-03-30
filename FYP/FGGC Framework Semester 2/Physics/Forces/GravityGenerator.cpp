@@ -1,5 +1,5 @@
 #include "GravityGenerator.h"
-#include "Particle.h"
+#include "../Particle.h"
 
 
 GravityGenerator::GravityGenerator() : currentGravity(Vector3f(0, 9.81f, 0))

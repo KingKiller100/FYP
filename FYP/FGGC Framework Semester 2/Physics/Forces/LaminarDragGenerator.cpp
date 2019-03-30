@@ -1,6 +1,5 @@
 #include "LaminarDragGenerator.h"
-#include "Particle.h"
-
+#include "../Particle.h"
 
 LaminarDragGenerator::LaminarDragGenerator() : dragCoefficient(0.40f)
 {
