@@ -20,11 +20,15 @@ private:
 	FLOAT nearDepth;
 	FLOAT farDepth;
 
-	float forwardMoveSpeed, backwardMoveSpeed;
-	float ascendingSpeed, descendingSpeed;
-	float rotationX, rotationY;
-	float turnSpeed;
+	float zMoveSpeed;
+	float yMoveSpeed;
 
+	float camAcceleration;
+
+	float rotationX, rotationY;
+	
+	float turnSpeed;
+	
 private:
 	void ForwardMovement();
 	void BackwardMovement();
@@ -51,9 +55,9 @@ public:
 	void SetProjectionMatrix(const XMFLOAT4X4& _projection)					{ projection = _projection; }
 
 	
-	XMFLOAT3 GetPosition() const											{ return XMFLOAT3(position.m128_f32[0], position.m128_f32[1], position.m128_f32[2]); }
 	XMFLOAT3 GetUp() const													{ return XMFLOAT3(up.m128_f32[0], up.m128_f32[1], up.m128_f32[2]); }
 	XMFLOAT3 GetAt() const													{ return XMFLOAT3(at.m128_f32[0], at.m128_f32[1], at.m128_f32[2]); }
+	XMFLOAT3 GetPosition() const											{ return XMFLOAT3(position.m128_f32[0], position.m128_f32[1], position.m128_f32[2]); }
 	XMFLOAT3 GetWorldPosition() const										{ return XMFLOAT3(position.m128_f32[0], position.m128_f32[1], position.m128_f32[2]); }
 	XMFLOAT4X4 GetViewMatrix() const										{ return view; }
 	XMFLOAT4X4 GetProjectionMatrix() const									{ return projection; }

@@ -42,32 +42,11 @@ bool Application::HandleKeyboard(MSG msg)
 		return true;
 
 	case VK_RIGHT:
-		_cameraOrbitAngleXZ -= _cameraSpeed;
-		return true;
-
-	case VK_LEFT:
 		_cameraOrbitAngleXZ += _cameraSpeed;
 		return true;
 
-		// Switches which cube is active
-	case '1':
-		ControllerManager::Instance()->SetCurrentObject(1);
-		return true;
-
-	case '2':
-		ControllerManager::Instance()->SetCurrentObject(2);
-		return true;
-	
-	case '3':
-		ControllerManager::Instance()->SetCurrentObject(3);
-		return true;
-	
-	case '4':
-		ControllerManager::Instance()->SetCurrentObject(4);
-		return true;
-
-	case '5':
-		ControllerManager::Instance()->SetCurrentObject(5);
+	case VK_LEFT:
+		_cameraOrbitAngleXZ -= _cameraSpeed;
 		return true;
 	}
 
@@ -127,8 +106,8 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	CreateDDSTextureFromFile(_pd3dDevice, L"Textures\\football.dds", nullptr, &_pFootballRV);
 
     // Setup Camera
-	XMFLOAT3 eye = XMFLOAT3(0.0f, 2.0f, -1.0f);
-	XMFLOAT3 at = XMFLOAT3(0.0f, 2.0f, 0.0f);
+	XMFLOAT3 eye = XMFLOAT3(0.0f, 5.0f, -1.0f);
+	XMFLOAT3 at = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	XMFLOAT3 up = XMFLOAT3(0.0f, 1.0f, 0.0f);
 
 	_camera = new Camera(eye, at, up, (float)_renderWidth, (float)_renderHeight, 0.01f, 200.0f);
@@ -176,46 +155,43 @@ HRESULT Application::Initialise(HINSTANCE hInstance, int nCmdShow)
 	floor->GetParticle()->SetCoefficientOfRestitution(0.0f);
 
 	floor->GetAppearance()->SetTextureRV(_pGroundTextureRV);
-
-	
+		
 	_goManager = new GameObjectManager(floor);
 
-	for (int i = 0; i < numOfObjects; i++)
-	{
-		GameObject* cube = new GameObject("Cube " + std::to_string(i + 1), new Appearance(cubeGeometry, shinyMaterial));
-
-		cube->GetTransformation()->SetScale(0.5f, 0.5f, 0.5f);
-
-		if (i % 2 != 0)
-		{
-			cube->GetParticle()->SwitchLaminarOn(false);
-		}
-
-		cube->GetTransformation()->SetPosition(-9.0f + (i * 2.0f), 50.f, 6.7f);
-		cube->GetParticle()->SetRadius(0.5f);
-		cube->GetParticle()->SetMass(20.0f);
-		
-		if (i == 0)
-		{
-			cube->GetAppearance()->SetTextureRV(_pFootballRV);
-			cube->GetParticle()->SetMass(200.f);
-		}
-		else
-		{
-			cube->GetAppearance()->SetTextureRV(_pTextureRV);
-		}
-
-		if (i > 5)
-		{
-			cube->GetParticle()->IsKillableOn(true);
-			cube->GetTransformation()->SetPosition(rand() % (int)floor->GetTransformation()->GetScale().x, rand() % 100, rand() % (int)floor->GetTransformation()->GetScale().z);
-			cube->GetParticle()->SetCoefficientOfRestitution(1);
-		}
-
-		_goManager->AddParticle(cube);
-	}
-
-	ControllerManager::Instance()->init(_goManager);
+	// for (int i = 0; i < numOfObjects; i++)
+	// {
+	// 	GameObject* cube = new GameObject("Cube " + std::to_string(i + 1), new Appearance(cubeGeometry, shinyMaterial));
+	//
+	// 	cube->GetTransformation()->SetScale(0.5f, 0.5f, 0.5f);
+	//
+	// 	if (i % 2 != 0)
+	// 	{
+	// 		cube->GetParticle()->SwitchLaminarOn(false);
+	// 	}
+	//
+	// 	cube->GetTransformation()->SetPosition(-9.0f + (i * 2.0f), 50.f, 6.7f);
+	// 	cube->GetParticle()->SetRadius(0.5f);
+	// 	cube->GetParticle()->SetMass(20.0f);
+	// 	
+	// 	if (i == 0)
+	// 	{
+	// 		cube->GetAppearance()->SetTextureRV(_pFootballRV);
+	// 		cube->GetParticle()->SetMass(200.f);
+	// 	}
+	// 	else
+	// 	{
+	// 		cube->GetAppearance()->SetTextureRV(_pTextureRV);
+	// 	}
+	//
+	// 	if (i > 5)
+	// 	{
+	// 		cube->GetParticle()->IsKillableOn(true);
+	// 		cube->GetTransformation()->SetPosition(rand() % (int)floor->GetTransformation()->GetScale().x, rand() % 100, rand() % (int)floor->GetTransformation()->GetScale().z);
+	// 		cube->GetParticle()->SetCoefficientOfRestitution(1);
+	// 	}
+	//
+	// 	_goManager->AddParticle(cube);
+	// }
 
 	ControllerManager::Instance()->init(_goManager);
 
@@ -725,7 +701,7 @@ void Application::Update()
 		// quad.Insert(gameObject);
 	// }
 
-	vector<GameObject*> returnList;
+	// vector<GameObject*> returnList;
 
 	for (auto gameObject : _goManager->GetGameObjectList())
 	{
@@ -759,7 +735,7 @@ void Application::UpdateCamera()
 	const float z = _cameraOrbitRadius * sin(angleAroundZ);
 
 	XMFLOAT3 cameraPos = _camera->GetPosition();
-	cameraPos.x = x;
+	cameraPos.x = x; 
 	cameraPos.z = z;
 
 	_camera->SetWorldPosition(cameraPos);
